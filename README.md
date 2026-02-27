@@ -17,7 +17,7 @@ O BitWatch vai crescer! As próximas versões trarão:
 - [ ] **Log de Eventos**: Registro de picos de temperatura e falta de memória para diagnóstico posterior.
 
 ## 🛠️ Tecnologias
-- **Linguagem**: Python 3.x
+- **Linguagem**: Python 3.14
 - **Bibliotecas**: `psutil`, `wmi`, `multiprocessing`
 - obs:caso a temperatura apareça via estimativa caso queira que apareça em exato rode o codigo como administrador
 
