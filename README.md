@@ -19,6 +19,7 @@ O BitWatch vai crescer! As próximas versões trarão:
 ## 🛠️ Tecnologias
 - **Linguagem**: Python 3.x
 - **Bibliotecas**: `psutil`, `wmi`, `multiprocessing`
+- obs:caso a temperatura apareça via estimativa caso queira que apareça em exato rode o codigo como administrador
 
 ---
 ### 👨‍💻 Autor
