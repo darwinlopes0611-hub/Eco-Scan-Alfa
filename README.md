@@ -10,16 +10,11 @@ O sistema realiza um checkup profundo dos componentes vitais:
 - **Termômetro Multinível**: Tenta ler a temperatura via `psutil` ou `WMI`. Caso o hardware oculte os sensores, o BitWatch utiliza uma **Lógica de Estimativa** baseada em carga para manter você informado.
 - **Stress Test (Turbo)**: Ferramenta integrada de estresse multinúcleo para testar a estabilidade do processador em situações críticas.
 
-## 🔮 O que vem por aí? (Roadmap)
-O BitWatch vai crescer! As próximas versões trarão:
-- [ ] **Interface Gráfica (GUI)**: Uma janela intuitiva e moderna com design em tons pastéis.
-- [ ] **Gráficos Dinâmicos**: Visualização visual do histórico de uso da CPU e RAM.
-- [ ] **Log de Eventos**: Registro de picos de temperatura e falta de memória para diagnóstico posterior.
 
 ## 🛠️ Tecnologias
 - **Linguagem**: Python 3.14
 - **Bibliotecas**: `psutil`, `wmi`, `multiprocessing`
-- obs:caso a temperatura apareça via estimativa caso queira que apareça em exato rode o codigo como administrador
+
 
 ---
 ### 👨‍💻 Autor
