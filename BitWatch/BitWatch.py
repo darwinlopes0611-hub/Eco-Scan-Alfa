@@ -11,7 +11,7 @@ import multiprocessing
 if __name__ == "__main__":
     # OS PRINTS DEVEM FICAR AQUI DENTRO:
     print("-----------------------------------------------------------")
-    print("EcoScan Alfa - version 1.0")
+    print("BitWach Alfa - version 1.0")
     print("-----------------------------------------------------------")
     print("by: Darwin Cruz Lopes")
     
@@ -38,7 +38,7 @@ def coletar_status_sistema():
     
     # 4. Uso da CPU (%)
     # Nota: interval=0.1 para a função não "travar" por 1 segundo inteiro
-    cpu_uso = psutil.cpu_percent(interval=0.1)
+    cpu_uso = psutil.cpu_percent(interval=0.4)
     
     # 5. Porcentagem de RAM usada
     ram_uso_pct = mem.percent
@@ -47,8 +47,7 @@ def coletar_status_sistema():
     return ram_total, ram_disponivel_gb, limite_10_porcento, cpu_uso, ram_uso_pct
 
 def pegar_temperatura():
-
-    # TENTATIVA 1: psutil (Padrão/Rápido)
+    # TENTATIVA 1: psutil
     try:
         temp = psutil.sensors_temperatures()
         if temp:
@@ -57,20 +56,28 @@ def pegar_temperatura():
     except:
         pass
 
-    # TENTATIVA 2: WMI (Agressivo/Windows)
+    # TENTATIVA 2: WMI
     try:
         w = wmi.WMI(namespace="root\\wmi")
         temp_k = w.MSAcpi_ThermalZoneTemperature()[0].CurrentTemperature
-        # Cálculo: (Kelvin / 10) - 273.15
         return f"{(temp_k / 10.0) - 273.15:.1f}°C"
     except:
         pass
 
-    # TENTATIVA 3: Estimativa (Seguro/Não trava)
-    cpu = psutil.cpu_percent()
-    if cpu > 75: return "Alta (Est.)"
-    if cpu > 40: return "Média (Est.)"
-    return "Baixa (Est.)"
+    # TENTATIVA 3: Estimativa (Onde estava o erro do self)
+    try:
+        freq = psutil.cpu_freq() 
+        if freq and freq.max > 0:
+            proporcao_clock = freq.current / freq.max
+            
+            if proporcao_clock <= 0.65:
+                cpu_temp_local = 90
+            else:
+                cpu_temp_local = 35 + (proporcao_clock * 40)
+            
+            return f"{cpu_temp_local:.1f}°C" # Retorna o valor estimado
+    except:
+        return "Erro"
 
 def estressar_nucleo():
     """Executa cálculos que a CPU aguenta sem dar erro de limite."""
@@ -112,6 +119,7 @@ if __name__ == "__main__":
     print(f"Limite de Segurança (10% da RAM): {limite_10_porcento:.2f} GB")
     print(f"Uso da CPU: {cpu_uso}%")
     print(f"Porcentagem de RAM Usada: {ram_uso_pct}%")
+    print(f"cpu temperatura: {pegar_temperatura()}")
 if __name__ == "__main__":
     if ram_disponivel_gb < limite_10_porcento and not memoria_aviso:
         print("AVISO: RAM disponível abaixo de 10% do total!")
@@ -123,6 +131,10 @@ if __name__ == "__main__":
     if temperatura and "Est." not in temperatura and float(temperatura.replace("°C", "")) > 80 and not superaquecimento_aviso:
         print(f"AVISO: Temperatura alta detectada! ({temperatura})")
         superaquecimento_aviso = True
+
+
+
+
 
 
 
